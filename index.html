@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TETRIS</title>
+    <link rel="stylesheet" href="./static/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich">
+</head>
+<body>
+    <div id="fpsWrapper">
+        <span>FPS:</span>
+        <span id="fpsDisplay">0</span>
+    </div>
+    <div id="startBox">
+        <span id="gameTitle">TETRIS</span>
+        <span class="controlsTitle">CONTROLS:</span>
+        <div id="controlsWrapper">
+            <span id="controlsRotate">Rotate</span>
+            <span id="controlsMoveLeft">Move<br>left</span>
+            <svg id="controlsKeyImg" xmlns="http://www.w3.org/2000/svg" width="130px" viewBox="7 21.98 86 56.04"><g style="fill:silver;fill-opacity:1"><path d="M47.05 65.64h2.07v-7.17c0-.41.34-.75.75-.75s.75.34.75.75v7.17h2.07c.41 0 .66.44.46.79l-2.82 4.89a.53.53 0 0 1-.92 0l-2.82-4.89a.53.53 0 0 1 .46-.79zm5.65-31.28h-2.07v7.17c0 .41-.34.75-.75.75a.76.76 0 0 1-.75-.75v-7.17h-2.07a.53.53 0 0 1-.46-.79l2.82-4.89c.2-.35.71-.35.92 0l2.82 4.89c.2.35-.05.79-.46.79zm27.93 33.12V65.4h-7.17a.76.76 0 0 1-.75-.75c0-.41.34-.75.75-.75h7.17v-2.07c0-.41.44-.66.79-.46l4.89 2.82c.35.2.35.71 0 .92l-4.89 2.82a.52.52 0 0 1-.79-.45zm-61.26-5.65v2.07h7.17c.41 0 .75.34.75.75s-.34.75-.75.75h-7.17v2.07c0 .41-.44.66-.79.46l-4.89-2.82a.53.53 0 0 1 0-.92l4.89-2.82c.35-.2.79.05.79.46z" style="display:inline;fill:silver;fill-opacity:1"/><rect width="24.93" height="24.88" x="37.41" y="22.92" ry="2.55" style="fill:none;fill-opacity:1;stroke:silver;stroke-width:1.82146;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:6.4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"/><rect width="24.89" height="24.89" x="37.42" y="52.2" ry="2.55" style="fill:none;fill-opacity:1;stroke:silver;stroke-width:1.82063;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:6.4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"/><rect width="24.91" height="24.91" x="67.18" y="52.2" ry="2.55" style="fill:none;fill-opacity:1;stroke:silver;stroke-width:1.82193;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:6.4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"/><rect width="24.9" height="24.88" x="7.91" y="52.22" ry="2.55" style="fill:none;fill-opacity:1;stroke:silver;stroke-width:1.82055;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:6.4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"/></g></svg>
+            <span id="controlsMoveRight">Move<br>right</span>
+            <span id="controlsFastDrop">Fast<br>drop</span>
+        </div>
+        <span class="controlsTitle">NEW TWIST:</span>
+        <span id="newTwistText">Besides standard tetris rules, you get three lives.<span class="break"></span>
+                                If no line is completed in 25 seconds, a life is lost.<span class="break"></span>
+                                Losing all lives ends the game.</span>
+        <button id="startButton">
+            <div class="buttonTextWrapper">
+                <div class="startSubmitButtonText">START</div>
+                <div class="startSubmitButtonTextShortcut">(Enter)</div>
+            </div>
+        </button>
+    </div>
+    <div id="gameOverBox">
+        <span id="gameOverTitle">GAME OVER</span>
+        <span id="gameOverText"></span>
+        <span id="gameOverNameText">Enter your name for scoreboard:</span>
+        <input id="nameInput" maxlength="14">
+        <button id="submitScoreButton" disabled>
+            <div class="buttonTextWrapper">
+                <div class="startSubmitButtonText">SUBMIT</div>
+                <div class="startSubmitButtonTextShortcut">(Enter)</div>
+            </div>
+        </button>
+    </div>
+    <div id="screenOverlay"></div>
+    <div id="container">
+        <div id="gamebox">
+            <div id="gameMessageBox">
+                <span id="gameMessage"></span>
+            </div>
+        </div>
+        <div id="boardsWrapper">
+            <div id="board">
+                <div id="nextTetrominoWrapper">
+                    <svg class="nextTetromino" xmlns="http://www.w3.org/2000/svg" height="60px" width="120px" viewBox="0 0 120 30"><path d="M2.9 2.9h25v25h-25z" style="fill:#d92327;fill-opacity:1;stroke-width:.17016"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#ff4245;fill-opacity:1;stroke-width:.264583"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#a61b1e;fill-opacity:1;stroke-width:.264583"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#9c191c;fill-opacity:1;stroke-width:.264583"/><path d="M2.9 2.9h25v25h-25z" style="fill:#d92327;fill-opacity:1;stroke-width:.17016" transform="translate(30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#ff4245;fill-opacity:1;stroke-width:.264583" transform="translate(30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#a61b1e;fill-opacity:1;stroke-width:.264583" transform="translate(30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#9c191c;fill-opacity:1;stroke-width:.264583" transform="translate(30)"/><path d="M2.9 2.9h25v25h-25z" style="fill:#d92327;fill-opacity:1;stroke-width:.17016" transform="translate(60)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#ff4245;fill-opacity:1;stroke-width:.264583" transform="translate(60)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#a61b1e;fill-opacity:1;stroke-width:.264583" transform="translate(60)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#9c191c;fill-opacity:1;stroke-width:.264583" transform="translate(60)"/><path d="M2.9 2.9h25v25h-25z" style="fill:#d92327;fill-opacity:1;stroke-width:.17016" transform="translate(90)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#ff4245;fill-opacity:1;stroke-width:.264583" transform="translate(90)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#a61b1e;fill-opacity:1;stroke-width:.264583" transform="translate(90)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#9c191c;fill-opacity:1;stroke-width:.264583" transform="translate(90)"/></svg>
+                    <svg class="nextTetromino" xmlns="http://www.w3.org/2000/svg" height="60px" width="60px" viewBox="0 0 60 60"><path d="M2.9 2.9h25v25h-25z" style="fill:#fed304;fill-opacity:1;stroke-width:.17016"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#fee068;fill-opacity:1;stroke-width:.264583"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#cca903;fill-opacity:1;stroke-width:.264583"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#c2a103;fill-opacity:1;stroke-width:.264583"/><path d="M2.9 2.9h25v25h-25z" style="fill:#fed304;fill-opacity:1;stroke-width:.17016" transform="translate(0 30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#fee068;fill-opacity:1;stroke-width:.264583" transform="translate(0 30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#cca903;fill-opacity:1;stroke-width:.264583" transform="translate(0 30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#c2a103;fill-opacity:1;stroke-width:.264583" transform="translate(0 30)"/><path d="M2.9 2.9h25v25h-25z" style="fill:#fed304;fill-opacity:1;stroke-width:.17016" transform="translate(30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#fee068;fill-opacity:1;stroke-width:.264583" transform="translate(30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#cca903;fill-opacity:1;stroke-width:.264583" transform="translate(30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#c2a103;fill-opacity:1;stroke-width:.264583" transform="translate(30)"/><path d="M2.9 2.9h25v25h-25z" style="fill:#fed304;fill-opacity:1;stroke-width:.17016" transform="translate(30 30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#fee068;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#cca903;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#c2a103;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/></svg>
+                    <svg class="nextTetromino" xmlns="http://www.w3.org/2000/svg" height="60px" width="120px" viewBox="0 0 90 60"><path d="M2.9 2.9h25v25h-25z" style="fill:#eb85b6;fill-opacity:1;stroke-width:.17016" transform="translate(30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#ffa3cf;fill-opacity:1;stroke-width:.264583" transform="translate(30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#b8688e;fill-opacity:1;stroke-width:.264583" transform="translate(30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#ad6186;fill-opacity:1;stroke-width:.264583" transform="translate(30)"/><path d="M2.9 2.9h25v25h-25z" style="fill:#eb85b6;fill-opacity:1;stroke-width:.17016" transform="translate(30 30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#ffa3cf;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#b8688e;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#ad6186;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/><path d="M2.9 2.9h25v25h-25z" style="fill:#eb85b6;fill-opacity:1;stroke-width:.17016" transform="translate(0 30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#ffa3cf;fill-opacity:1;stroke-width:.264583" transform="translate(0 30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#b8688e;fill-opacity:1;stroke-width:.264583" transform="translate(0 30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#ad6186;fill-opacity:1;stroke-width:.264583" transform="translate(0 30)"/><path d="M2.9 2.9h25v25h-25z" style="fill:#eb85b6;fill-opacity:1;stroke-width:.17016" transform="translate(60 30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#ffa3cf;fill-opacity:1;stroke-width:.264583" transform="translate(60 30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#b8688e;fill-opacity:1;stroke-width:.264583" transform="translate(60 30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#ad6186;fill-opacity:1;stroke-width:.264583" transform="translate(60 30)"/></svg>
+                    <svg class="nextTetromino" xmlns="http://www.w3.org/2000/svg" height="60px" width="120px" viewBox="0 0 90 60"><path d="M2.9 2.9h25v25h-25z" style="fill:#1fa054;fill-opacity:1;stroke-width:.17016" transform="translate(60)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#53bb6c;fill-opacity:1;stroke-width:.264583" transform="translate(60)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#156e3a;fill-opacity:1;stroke-width:.264583" transform="translate(60)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#166636;fill-opacity:1;stroke-width:.264583" transform="translate(60)"/><path d="M2.9 2.9h25v25h-25z" style="fill:#1fa054;fill-opacity:1;stroke-width:.17016" transform="translate(0 30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#53bb6c;fill-opacity:1;stroke-width:.264583" transform="translate(0 30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#156e3a;fill-opacity:1;stroke-width:.264583" transform="translate(0 30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#166636;fill-opacity:1;stroke-width:.264583" transform="translate(0 30)"/><path d="M2.9 2.9h25v25h-25z" style="fill:#1fa054;fill-opacity:1;stroke-width:.17016" transform="translate(30 30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#53bb6c;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#156e3a;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#166636;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/><path d="M2.9 2.9h25v25h-25z" style="fill:#1fa054;fill-opacity:1;stroke-width:.17016" transform="translate(60 30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#53bb6c;fill-opacity:1;stroke-width:.264583" transform="translate(60 30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#156e3a;fill-opacity:1;stroke-width:.264583" transform="translate(60 30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#166636;fill-opacity:1;stroke-width:.264583" transform="translate(60 30)"/></svg>
+                    <svg class="nextTetromino" xmlns="http://www.w3.org/2000/svg" height="60px" width="120px" viewBox="0 0 90 60"><path d="M2.9 2.9h25v25h-25z" style="fill:#5c4133;fill-opacity:1;stroke-width:.17016"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#8f654f;fill-opacity:1;stroke-width:.264583"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#291d17;fill-opacity:1;stroke-width:.264583"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#211712;fill-opacity:1;stroke-width:.264583"/><path d="M2.9 2.9h25v25h-25z" style="fill:#5c4133;fill-opacity:1;stroke-width:.17016" transform="translate(0 30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#8f654f;fill-opacity:1;stroke-width:.264583" transform="translate(0 30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#291d17;fill-opacity:1;stroke-width:.264583" transform="translate(0 30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#211712;fill-opacity:1;stroke-width:.264583" transform="translate(0 30)"/><path d="M2.9 2.9h25v25h-25z" style="fill:#5c4133;fill-opacity:1;stroke-width:.17016" transform="translate(30 30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#8f654f;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#291d17;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#211712;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/><path d="M2.9 2.9h25v25h-25z" style="fill:#5c4133;fill-opacity:1;stroke-width:.17016" transform="translate(60 30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#8f654f;fill-opacity:1;stroke-width:.264583" transform="translate(60 30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#291d17;fill-opacity:1;stroke-width:.264583" transform="translate(60 30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#211712;fill-opacity:1;stroke-width:.264583" transform="translate(60 30)"/></svg>
+                    <svg class="nextTetromino" xmlns="http://www.w3.org/2000/svg" height="60px" width="120px" viewBox="0 0 90 60"><path d="M2.9 2.9h25v25h-25z" style="fill:#39a8a3;fill-opacity:1;stroke-width:.17016" transform="translate(30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#4adbd5;fill-opacity:1;stroke-width:.264583" transform="translate(30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#287572;fill-opacity:1;stroke-width:.264583" transform="translate(30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#256e6b;fill-opacity:1;stroke-width:.264583" transform="translate(30)"/><path d="M2.9 2.9h25v25h-25z" style="fill:#39a8a3;fill-opacity:1;stroke-width:.17016" transform="translate(0 30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#4adbd5;fill-opacity:1;stroke-width:.264583" transform="translate(0 30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#287572;fill-opacity:1;stroke-width:.264583" transform="translate(0 30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#256e6b;fill-opacity:1;stroke-width:.264583" transform="translate(0 30)"/><path d="M2.9 2.9h25v25h-25z" style="fill:#39a8a3;fill-opacity:1;stroke-width:.17016" transform="translate(30 30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#4adbd5;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#287572;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#256e6b;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/><path d="M2.9 2.9h25v25h-25z" style="fill:#39a8a3;fill-opacity:1;stroke-width:.17016" transform="translate(60)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#4adbd5;fill-opacity:1;stroke-width:.264583" transform="translate(60)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#287572;fill-opacity:1;stroke-width:.264583" transform="translate(60)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#256e6b;fill-opacity:1;stroke-width:.264583" transform="translate(60)"/></svg>
+                    <svg class="nextTetromino" xmlns="http://www.w3.org/2000/svg" height="60px" width="120px" viewBox="0 0 90 60"><path d="M2.9 2.9h25v25h-25z" style="fill:#7e3d97;fill-opacity:1;stroke-width:.17016"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#955aa4;fill-opacity:1;stroke-width:.264583"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#532963;fill-opacity:1;stroke-width:.264583"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#4a2459;fill-opacity:1;stroke-width:.264583"/><path d="M2.9 2.9h25v25h-25z" style="fill:#7e3d97;fill-opacity:1;stroke-width:.17016" transform="translate(30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#955aa4;fill-opacity:1;stroke-width:.264583" transform="translate(30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#532963;fill-opacity:1;stroke-width:.264583" transform="translate(30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#4a2459;fill-opacity:1;stroke-width:.264583" transform="translate(30)"/><path d="M2.9 2.9h25v25h-25z" style="fill:#7e3d97;fill-opacity:1;stroke-width:.17016" transform="translate(30 30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#955aa4;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#532963;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#4a2459;fill-opacity:1;stroke-width:.264583" transform="translate(30 30)"/><path d="M2.9 2.9h25v25h-25z" style="fill:#7e3d97;fill-opacity:1;stroke-width:.17016" transform="translate(60 30)"/><path d="M0 0v30l3-3V3h24l3-3z" style="fill:#955aa4;fill-opacity:1;stroke-width:.264583" transform="translate(60 30)"/><path d="M30 0v30H0l3-3h24V3Z" style="fill:#532963;fill-opacity:1;stroke-width:.264583" transform="translate(60 30)"/><path d="M0 30v-1h1v-1h1v-1h1v1H2v1H1v1zM27 3V2h1V1h1V0h1v1h-1v1h-1v1z" style="fill:#4a2459;fill-opacity:1;stroke-width:.264583" transform="translate(60 30)"/></svg>
+                </div>
+                <div id="boardInfoWrapper">
+                    <div id="boardInfoLeftColumn">
+                        <span class="boardText">TIME</span>
+                        <span class="boardText">SCORE</span>
+                        <span class="boardText">LEVEL</span>
+                        <span class="boardText">LINES</span>
+                    </div>
+                    <div id="boardInfoRightColumn">
+                        <span id="mainTimer" class="boardValue">00:00</span>
+                        <span id="score" class="boardValue">0000</span>
+                        <span id="level" class="boardValue">1</span>
+                        <span id="lines" class="boardValue">0</span>
+                    </div>
+                </div>
+                <div id="livesWrapper">
+                    <div class="heartWrapper">
+                        <span class="heartStopper"></span>
+                        <svg class="heart" xmlns="http://www.w3.org/2000/svg" height="40px" width="41px" viewBox="0 0 20 18">
+                            <path d="M11 18H9v-1H8v-1H7v-1H6v-1H5v-1H4v-1H3v-1H2v-1H1V8H0V3h1V2h1V1h1V0h5v1h1v1h2V1h1V0h5v1h1v1h1v1h1v5h-1v2h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1" style="fill:#d92327;fill-opacity:1"/>
+                        </svg>
+                    </div>
+                    <div class="heartWrapper">
+                        <span class="heartStopper"></span>
+                        <svg class="heart" xmlns="http://www.w3.org/2000/svg" height="40px" width="41px" viewBox="0 0 20 18">
+                            <path d="M11 18H9v-1H8v-1H7v-1H6v-1H5v-1H4v-1H3v-1H2v-1H1V8H0V3h1V2h1V1h1V0h5v1h1v1h2V1h1V0h5v1h1v1h1v1h1v5h-1v2h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1" style="fill:#d92327;fill-opacity:1"/>
+                        </svg>
+                    </div>
+                    <div class="heartWrapper">
+                        <span class="heartStopper">25</span>
+                        <svg class="heart" xmlns="http://www.w3.org/2000/svg" height="40px" width="41px" viewBox="0 0 20 18">
+                            <path d="M11 18H9v-1H8v-1H7v-1H6v-1H5v-1H4v-1H3v-1H2v-1H1V8H0V3h1V2h1V1h1V0h5v1h1v1h2V1h1V0h5v1h1v1h1v1h1v5h-1v2h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1" style="fill:#d92327;fill-opacity:1"/>
+                        </svg>
+                    </div>
+                </div>
+                <div id="boardButtonsWrapper">
+                    <button id="pauseButton" class="pauseButtonBlue">
+                        <div class="buttonTextWrapper">
+                            <div id="pauseButtonText" class="buttonText">PAUSE</div>
+                            <div class="buttonTextShortcut">(Space)</div>
+                        </div>
+                    </button>
+                    <button id="restartButton">
+                        <div class="buttonTextWrapper">
+                            <div class="buttonText">RESTART</div>
+                            <div class="buttonTextShortcut">(R)</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <div id="scoreBoard">
+                <span id="scoresTitle">SCOREBOARD</span>
+                <div class="scoresWrapper">
+                    <span class="scoresRank"></span>
+                    <span class="scoresName"></span>
+                    <span class="scoresScore"></span>
+                    <span class="scoresTime"></span>
+                </div>
+                <div class="scoresWrapper">
+                    <span class="scoresRank"></span>
+                    <span class="scoresName"></span>
+                    <span class="scoresScore"></span>
+                    <span class="scoresTime"></span>
+                </div>
+                <div class="scoresWrapper">
+                    <span class="scoresRank"></span>
+                    <span class="scoresName"></span>
+                    <span class="scoresScore"></span>
+                    <span class="scoresTime"></span>
+                </div>
+                <div class="scoresWrapper">
+                    <span class="scoresRank"></span>
+                    <span class="scoresName"></span>
+                    <span class="scoresScore"></span>
+                    <span class="scoresTime"></span>
+                </div>
+                <div class="scoresWrapper">
+                    <span class="scoresRank"></span>
+                    <span class="scoresName"></span>
+                    <span class="scoresScore"></span>
+                    <span class="scoresTime"></span>
+                </div>
+                <div id="scoresNavWrapper">
+                    <button id="leftNavBtn" class="arrow left"></button>
+                    <span id="navPageNumber">1/5</span>
+                    <button id="rightNavBtn" class="arrow right"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="./static/game.js"></script>
+</body>
+</html>
