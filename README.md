@@ -1,4 +1,4 @@
-# Make your game - Scoreboard
+# Tetris
 
 The goal for this task was to create a game using only plain JavaScript and HTML 
 (usage of frameworks and canvas was not allowed) and implement also a scoreboard
@@ -6,8 +6,14 @@ which would run in Go server and store the scoreboard in JSON file.
 
 # Authors
 
-Olena Budarahina (obudarah)  
-Erik Hans Sepp (ehspp)
+Erik Hans Sepp (eriksepp)  
+Olena Budarahina (obudarah) 
+
+# Technologies used
+
+- Javascript (RequestAnimationFrame for animation)
+- Go
+- Gorilla websocket
 
 # Usage
 
@@ -20,6 +26,11 @@ For installation run the following command in your terminal:
 If you have the Gorilla Websocket installed run the Go server with:
 
 `go run . `
+
+# Screenshots
+<img src="screenshots/tetris1.png" width="800" /><br>
+<img src="screenshots/tetris2.png" width="800" /><br>
+<img src="screenshots/tetris3.png" width="800" /><br>
 
 # Rules
 
